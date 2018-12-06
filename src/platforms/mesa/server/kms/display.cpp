@@ -414,6 +414,11 @@ mg::Frame mgm::Display::last_frame_on(unsigned output_id) const
     return output->last_frame();
 }
 
+EGLDisplay mgm::Display::egl_display() const
+{
+    return shared_egl.display();
+}
+
 namespace
 {
 /*

@@ -15,7 +15,7 @@ set(
   atomic_frame.cpp
   ${PROJECT_SOURCE_DIR}/include/platform/mir/graphics/display.h
   ${PROJECT_SOURCE_DIR}/include/platform/mir/graphics/wayland_allocator.h
-)
+        ../../../include/platform/mir/graphics/egl_display_provider.h)
 
 add_library(mirplatformgraphicscommon OBJECT
 

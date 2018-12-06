@@ -411,7 +411,8 @@ public:
 
             const EGLint image_attrs[] =
                 {
-                    EGL_IMAGE_PRESERVED_KHR, EGL_TRUE,
+//                    EGL_IMAGE_PRESERVED_KHR, EGL_TRUE,
+                    EGL_WAYLAND_PLANE_WL, 0,
                     EGL_NONE
                 };
 
@@ -546,10 +547,9 @@ private:
 };
 }
 
-void mgm::BufferAllocator::bind_display(wl_display* display)
+void mgm::BufferAllocator::bind_display(wl_display* display, EGLDisplay dpy)
 {
-    dpy = eglGetCurrentDisplay();
-
+    this->dpy = dpy;
     if (dpy == EGL_NO_DISPLAY)
         BOOST_THROW_EXCEPTION((std::logic_error{"WaylandAllocator::bind_display called without an active EGL Display"}));
 

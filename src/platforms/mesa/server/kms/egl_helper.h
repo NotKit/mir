@@ -20,6 +20,7 @@
 #define MIR_GRAPHICS_MESA_EGL_HELPER_H_
 
 #include "display_helpers.h"
+#include "mir/graphics/egl_extensions.h"
 #include <EGL/egl.h>
 
 namespace mir
@@ -57,6 +58,8 @@ public:
 
     EGLContext context() { return egl_context; }
 
+    EGLDisplay display() const { return egl_display; }
+
     void report_egl_configuration(std::function<void(EGLDisplay, EGLConfig)>);
 private:
     void setup_internal(GBMHelper const& gbm, bool initialize, EGLint gbm_format);
@@ -68,6 +71,7 @@ private:
     EGLContext egl_context;
     EGLSurface egl_surface;
     bool should_terminate_egl;
+    EGLExtensions::PlatformBaseEXT platform_base;
 };
 }
 }

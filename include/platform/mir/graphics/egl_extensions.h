@@ -46,6 +46,15 @@ struct EGLExtensions
         PFNEGLQUERYWAYLANDBUFFERWL const eglQueryWaylandBufferWL;
     };
     std::experimental::optional<WaylandExtensions> const wayland;
+
+    struct PlatformBaseEXT
+    {
+        PlatformBaseEXT();
+
+        PFNEGLGETPLATFORMDISPLAYEXTPROC const eglGetPlatformDisplay;
+        PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC const eglCreatePlatformWindowSurface;
+    };
+    std::experimental::optional<PlatformBaseEXT> const platform_base;
 };
 
 }

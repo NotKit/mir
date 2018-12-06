@@ -50,6 +50,8 @@
 #include "mir/graphics/buffer.h"
 #include "mir/graphics/graphic_buffer_allocator.h"
 #include "mir/graphics/wayland_allocator.h"
+#include "mir/graphics/display.h"
+#include "mir/graphics/egl_display_provider.h"
 
 #include "mir/renderer/gl/texture_target.h"
 #include "mir/frontend/buffer_stream_id.h"
@@ -507,7 +509,7 @@ void cleanup_display(wl_display *display)
 class ThrowingAllocator : public mg::WaylandAllocator
 {
 public:
-    void bind_display(wl_display*) override
+    void bind_display(wl_display*, EGLDisplay) override
     {
     }
 
@@ -522,22 +524,26 @@ public:
 
 std::shared_ptr<mg::WaylandAllocator> allocator_for_display(
     std::shared_ptr<mg::GraphicBufferAllocator> const& buffer_allocator,
-    wl_display* display)
+    wl_display* display,
+    std::shared_ptr<mg::Display> const& mir_display)
 {
     if (auto allocator = std::dynamic_pointer_cast<mg::WaylandAllocator>(buffer_allocator))
     {
-        try
+        if (auto egl_display_provider = std::dynamic_pointer_cast<mg::EGLDisplayProvider>(mir_display))
         {
-            allocator->bind_display(display);
-            return allocator;
-        }
-        catch (...)
-        {
-            mir::log(
-                mir::logging::Severity::warning,
-                "Wayland",
-                std::current_exception(),
-                "Failed to bind Wayland EGL display. Accelerated EGL will be unavailable.");
+            try
+            {
+                allocator->bind_display(display, egl_display_provider->egl_display());
+                return allocator;
+            }
+            catch (...)
+            {
+                mir::log(
+                    mir::logging::Severity::warning,
+                    "Wayland",
+                    std::current_exception(),
+                    "Failed to bind Wayland EGL display. Accelerated EGL will be unavailable.");
+            }
         }
     }
     /*
@@ -588,12 +594,13 @@ mf::WaylandConnector::WaylandConnector(
     std::shared_ptr<mi::InputDeviceHub> const& input_hub,
     std::shared_ptr<mi::Seat> const& seat,
     std::shared_ptr<mg::GraphicBufferAllocator> const& allocator,
+    std::shared_ptr<mg::Display> const& mir_display,
     std::shared_ptr<mf::SessionAuthorizer> const& session_authorizer,
     bool arw_socket,
     std::unique_ptr<WaylandExtensions> extensions_)
     : display{wl_display_create(), &cleanup_display},
       pause_signal{eventfd(0, EFD_CLOEXEC | EFD_SEMAPHORE)},
-      allocator{allocator_for_display(allocator, display.get())},
+      allocator{allocator_for_display(allocator, this->display.get(), mir_display)},
       extensions{std::move(extensions_)}
 {
     if (pause_signal == mir::Fd::invalid)

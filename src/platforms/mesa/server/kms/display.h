@@ -26,6 +26,7 @@
 #include "display_helpers.h"
 #include "egl_helper.h"
 #include "platform_common.h"
+#include "mir/graphics/egl_display_provider.h"
 
 #include <atomic>
 #include <mutex>
@@ -62,7 +63,8 @@ class Cursor;
 
 class Display : public graphics::Display,
                 public graphics::NativeDisplay,
-                public renderer::gl::ContextSource
+                public renderer::gl::ContextSource,
+                public graphics::EGLDisplayProvider
 {
 public:
     Display(std::vector<std::shared_ptr<helpers::DRMHelper>> const& drm,
@@ -102,6 +104,7 @@ public:
 
     Frame last_frame_on(unsigned output_id) const override;
 
+    EGLDisplay egl_display() const override;
 private:
     void clear_connected_unused_outputs();
 
