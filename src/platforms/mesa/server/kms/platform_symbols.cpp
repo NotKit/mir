@@ -132,9 +132,9 @@ mg::PlatformPriority probe_graphics_platform(
         // …maybe we support the old pre-standardised Mesa GBM platform?
         if (strstr(client_extensions, "EGL_MESA_platform_gbm") == nullptr)
         {
-            mir::log_info(
+            mir::log_warning(
                 "Unsupported: EGL platform supports neither EGL_KHR_platform_gbm nor EGL_MESA_platform_gbm");
-            return mg::PlatformPriority::unsupported;
+            //return mg::PlatformPriority::unsupported;
         }
     }
 
@@ -162,6 +162,7 @@ mg::PlatformPriority probe_graphics_platform(
 
             if (tmp_fd != mir::Fd::invalid)
             {
+/*
                 mgm::helpers::GBMHelper gbm_device{tmp_fd};
                 mgm::helpers::EGLHelper egl{MinimalGLConfig()};
 
@@ -172,8 +173,8 @@ mg::PlatformPriority probe_graphics_platform(
                 auto const renderer_string = reinterpret_cast<char const*>(glGetString(GL_RENDERER));
                 if (!renderer_string)
                 {
-                    throw mg::gl_error(
-                        "Probe failed to query GL renderer");
+//                    throw mg::gl_error(
+                         mir::log_warning("Probe failed to query GL renderer");
                 }
 
                 if (strncmp(
@@ -186,6 +187,7 @@ mg::PlatformPriority probe_graphics_platform(
                      //         use them instead.
                      return mg::PlatformPriority::supported;
                 }
+*/
 
                 return mg::PlatformPriority::best;
             }

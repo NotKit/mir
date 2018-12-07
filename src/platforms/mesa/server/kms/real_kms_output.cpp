@@ -676,7 +676,7 @@ bool mgm::RealKMSOutput::buffer_requires_migration(gbm_bo* bo) const
      *
      * For a first go, just say that *every* device scans out of GPU-private memory.
      */
-    return gbm_device_get_fd(gbm_bo_get_device(bo)) != drm_fd_;
+    return gbm_device_get_fd(gbm_bo_get_device(bo)) != drm_fd_ && false;
 }
 
 int mgm::RealKMSOutput::drm_fd() const
