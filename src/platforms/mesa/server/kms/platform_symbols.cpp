@@ -123,13 +123,13 @@ mg::PlatformPriority probe_graphics_platform(
     {
         // Doesn't support EGL client extensions; Mesa does, so this is unlikely to be mesa.
         mir::log_info("Unsupported: EGL platform does not support client extensions.");
-        return mg::PlatformPriority::unsupported;
+        //return mg::PlatformPriority::unsupported;
     }
     if (strstr(client_extensions, "EGL_MESA_platform_gbm") == nullptr)
     {
         // No platform_gbm support, so we can't work.
         mir::log_info("Unsupported: EGL platform does not support EGL_MESA_platform_gbm extension");
-        return mg::PlatformPriority::unsupported;
+        //return mg::PlatformPriority::unsupported;
     }
 
     // Check for suitability
@@ -156,6 +156,7 @@ mg::PlatformPriority probe_graphics_platform(
 
             if (tmp_fd != mir::Fd::invalid)
             {
+/*
                 mgm::helpers::GBMHelper gbm_device{tmp_fd};
                 mgm::helpers::EGLHelper egl{MinimalGLConfig()};
 
@@ -166,8 +167,8 @@ mg::PlatformPriority probe_graphics_platform(
                 auto const renderer_string = reinterpret_cast<char const*>(glGetString(GL_RENDERER));
                 if (!renderer_string)
                 {
-                    throw mg::gl_error(
-                        "Probe failed to query GL renderer");
+//                    throw mg::gl_error(
+                         mir::log_warning("Probe failed to query GL renderer");
                 }
 
                 if (strncmp(
@@ -180,6 +181,7 @@ mg::PlatformPriority probe_graphics_platform(
                      //         use them instead.
                      return mg::PlatformPriority::supported;
                 }
+*/
 
                 return mg::PlatformPriority::best;
             }
