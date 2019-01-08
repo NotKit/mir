@@ -44,6 +44,7 @@
 #include <boost/throw_exception.hpp>
 #include <mutex>
 #include <stdexcept>
+#include <stdlib.h>
 #include <string.h>
 
 namespace mg = mir::graphics;
@@ -236,6 +237,10 @@ mg::PlatformPriority probe_graphics_platform(mo::ProgramOption const& /*options*
         return mg::PlatformPriority::unsupported;
 
 #ifdef ANDROID_CAF
+    if (getenv("ENABLE_CAF")) 
+        return static_cast<mg::PlatformPriority>(mg::PlatformPriority::best + 1);
+    if (getenv("ENABLE_NORMAL")) 
+        return static_cast<mg::PlatformPriority>(mg::PlatformPriority::best + 1);
     // LAZY HACK to check for qcom hardware
     if (force_vanilla_version())
 	return mg::PlatformPriority::unsupported;
@@ -245,6 +250,10 @@ mg::PlatformPriority probe_graphics_platform(mo::ProgramOption const& /*options*
         return static_cast<mg::PlatformPriority>(mg::PlatformPriority::best + 1);
     return mg::PlatformPriority::unsupported;
 #else
+    if (getenv("ENABLE_CAF")) 
+	return mg::PlatformPriority::unsupported;
+    if (getenv("ENABLE_NORMAL")) 
+        return mg::PlatformPriority::best;
     if (force_caf_version())
 	return mg::PlatformPriority::unsupported;
     return mg::PlatformPriority::best;
