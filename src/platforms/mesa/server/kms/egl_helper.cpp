@@ -212,8 +212,8 @@ void mgmh::EGLHelper::setup_internal(GBMHelper const& gbm, bool initialize, EGLi
         EGL_PLATFORM_GBM_KHR,      // EGL_PLATFORM_GBM_MESA has the same value.
         static_cast<EGLNativeDisplayType>(gbm.device),
         nullptr);
-    if (egl_display == EGL_NO_DISPLAY)
-        BOOST_THROW_EXCEPTION(mg::egl_error("Failed to get EGL display"));
+   // if (egl_display == EGL_NO_DISPLAY)
+   //     BOOST_THROW_EXCEPTION(mg::egl_error("Failed to get EGL display"));
 
     if (initialize)
     {
