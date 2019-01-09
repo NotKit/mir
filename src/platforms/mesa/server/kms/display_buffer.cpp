@@ -517,13 +517,14 @@ mgm::DisplayBuffer::DisplayBuffer(
 
     if (needs_bounce_buffer(*outputs.front(), temporary_front))
     {
+        mir::log_info("Hybrid display configuration requires buffer copy: using EGL for copies.");
         get_front_buffer = std::bind(
             std::mem_fn(&EGLBufferCopier::copy_front_buffer_from),
             std::make_shared<EGLBufferCopier>(
                 outputs.front()->drm_fd(),
                 surface.size().width.as_int(),
                 surface.size().height.as_int(),
-                GBM_BO_FORMAT_XRGB8888),
+                GBM_FORMAT_XRGB8888),
             std::placeholders::_1);
     }
     else

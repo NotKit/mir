@@ -40,6 +40,7 @@ namespace graphics
 {
 class GraphicBufferAllocator;
 class WaylandAllocator;
+class Display;
 }
 namespace geometry
 {
@@ -89,6 +90,7 @@ public:
         std::shared_ptr<input::InputDeviceHub> const& input_hub,
         std::shared_ptr<input::Seat> const& seat,
         std::shared_ptr<graphics::GraphicBufferAllocator> const& allocator,
+        std::shared_ptr<graphics::Display> const& platform,
         std::shared_ptr<SessionAuthorizer> const& session_authorizer,
         bool arw_socket,
         std::unique_ptr<WaylandExtensions> extensions);

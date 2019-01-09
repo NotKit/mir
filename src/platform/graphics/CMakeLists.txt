@@ -22,6 +22,7 @@ set(
   program.cpp
   ${PROJECT_SOURCE_DIR}/include/platform/mir/graphics/program_factory.h
   program_factory.cpp
+  ../../../include/platform/mir/graphics/egl_display_provider.h
 )
 
 add_library(mirplatformgraphicscommon OBJECT

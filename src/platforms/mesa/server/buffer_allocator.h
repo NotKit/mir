@@ -75,7 +75,7 @@ public:
     std::shared_ptr<Buffer> alloc_buffer(graphics::BufferProperties const& buffer_properties) override;
     std::vector<MirPixelFormat> supported_pixel_formats() override;
 
-    void bind_display(wl_display* display, std::shared_ptr<Executor> wayland_executor) override;
+    void bind_display(wl_display* display, std::shared_ptr<Executor> wayland_executor, EGLDisplay dpy) override;
     std::shared_ptr<Buffer> buffer_from_resource(
         wl_resource* buffer,
         std::function<void()>&& on_consumed,

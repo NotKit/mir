@@ -113,6 +113,7 @@ std::shared_ptr<mf::Connector>
                 the_input_device_hub(),
                 the_seat(),
                 the_buffer_allocator(),
+                the_display(),
                 the_session_authorizer(),
                 arw_socket,
                 configure_wayland_extensions(wayland_extensions, options->is_set(mo::x11_display_opt)));

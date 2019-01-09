@@ -318,7 +318,7 @@ std::shared_ptr<mg::Buffer> mgm::BufferAllocator::alloc_buffer(
 
     return std::make_shared<GBMBuffer>(
         bo, native_flags, make_texture_binder(buffer_import_method, bo, egl_extensions));
-} 
+}
 
 std::shared_ptr<mg::Buffer> mgm::BufferAllocator::alloc_software_buffer(
     geom::Size size, MirPixelFormat format)
@@ -586,12 +586,11 @@ private:
 };
 }
 
-void mgm::BufferAllocator::bind_display(wl_display* display, std::shared_ptr<Executor> wayland_executor)
+void mgm::BufferAllocator::bind_display(wl_display* display, std::shared_ptr<Executor> wayland_executor, EGLDisplay dpy)
 {
     auto context_guard = mir::raii::paired_calls(
         [this]() { ctx->make_current(); },
         [this]() { ctx->release_current(); });
-    auto dpy = eglGetCurrentDisplay();
 
     if (!egl_extensions->wayland)
     {

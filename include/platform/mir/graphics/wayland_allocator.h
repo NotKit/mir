@@ -24,6 +24,7 @@
 #include <functional>
 
 #include <wayland-server-core.h>
+#include <EGL/egl.h>
 
 namespace mir
 {
@@ -42,7 +43,7 @@ public:
     WaylandAllocator(WaylandAllocator const&) = delete;
     WaylandAllocator& operator=(WaylandAllocator const&) = delete;
 
-    virtual void bind_display(wl_display* display, std::shared_ptr<Executor> wayland_executor) = 0;
+    virtual void bind_display(wl_display* display, std::shared_ptr<Executor> wayland_executor, EGLDisplay dpy) = 0;
     virtual std::shared_ptr<Buffer> buffer_from_resource(
         wl_resource* buffer,
         std::function<void()>&& on_consumed,
