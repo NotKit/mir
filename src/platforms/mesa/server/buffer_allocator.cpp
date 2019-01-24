@@ -112,7 +112,7 @@ private:
 
             const EGLint image_attrs[] =
             {
-                EGL_IMAGE_PRESERVED_KHR, EGL_TRUE,
+//                EGL_IMAGE_PRESERVED_KHR, EGL_TRUE,
                 EGL_NONE
             };
 
